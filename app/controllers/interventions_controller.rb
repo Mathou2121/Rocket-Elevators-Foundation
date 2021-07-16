@@ -12,7 +12,42 @@ class InterventionsController < ApplicationController
 
   # GET /interventions/new
   def new
+    @customers = Customer.all
     @intervention = Intervention.new
+    @employee = Employee.all
+  end
+
+  # /interventions/building_fetch
+  def building_fetch
+    @buildings = Building.where(customer_id: params[:customer_id])
+    puts @buildings
+    respond_to do |format|
+      format.json { render :json => @buildings}
+    end
+  end
+
+  def battery_fetch
+    @battery = Battery.where(building_id: params[:building_id])
+    puts @battery
+    respond_to do |format|
+      format.json { render :json => @battery}
+    end
+  end
+
+  def column_fetch
+    @column = Column.where(battery_id: params[:battery_id])
+    puts @column
+    respond_to do |format|
+      format.json { render :json => @column}
+    end
+  end
+
+  def elevator_fetch
+    @elevator = Elevator.where(elevator_id: params[:elevator_id])
+    puts @elevator
+    respond_to do |format|
+      format.json { render :json => @elevator}
+    end
   end
 
   # GET /interventions/1/edit

@@ -24,5 +24,13 @@ Rails.application.routes.draw do
 
   get '/intervention' , to: 'website#intervention'
 
+  get '/interventions/building_fetch/:customer_id', to: 'interventions#building_fetch'
+
+  get '/interventions/battery_fetch/:building_id', to: 'interventions#battery_fetch'
+
+  get '/interventions/column_fetch/:battery_id', to: 'interventions#column_fetch'
+
+  get '/interventions/elevator_fetch/:column_id', to: 'interventions#elevator_fetch'
+
 end
 
