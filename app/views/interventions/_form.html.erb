@@ -1,77 +1,298 @@
-<%= form_with(model: intervention, local: true) do |form| %>
-  <% if intervention.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(intervention.errors.count, "error") %> prohibited this intervention from being saved:</h2>
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<link rel="icon" type="image/png" href="<%= asset_path('faviconlogo.png') %>" />
+		<meta charset="utf-8" />
+		<title>Quote Page-Rocket Elevators</title>
+		<meta name="description" content="" />
+		<meta name="Author" content="Dorin Grigoras [www.stepofweb.com]" />
 
-      <ul>
-      <% intervention.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
+		<!-- mobile settings -->
+		<meta name="viewport" content="width=device-width, maximum-scale=1, initial-scale=1, user-scalable=0" />
+		<!--[if IE]><meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'><![endif]-->
+
+		<!-- WEB FONTS : use %7C instead of | (pipe) -->
+		<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600%7CRaleway:300,400,500,600,700%7CLato:300,400,400italic,600,700" rel="stylesheet" type="text/css" />
+
+	</head>
+
+	<body>
+
+		<!-- wrapper -->
+		<div id="wrapper">
+
+			<div id="header" class="navbar-toggleable-md sticky clearfix">
+
+				<!-- TOP NAV -->
+				<header id="topNav">
+					<div class="container">
+
+						<!-- Mobile Menu Button -->
+						<button class="btn btn-mobile" data-toggle="collapse" data-target=".nav-main-collapse">
+							<i class="fa fa-bars"></i>
+						</button>
+
+						<!-- Logo -->
+						<a class="logo float-left scrollTo" href="#top" style="background-color: #FFFFFF">
+							<img src="<%= asset_path('R2.png') %>" alt="" />
+						</a>
+
+						<!-- 
+							Top Nav 
+							
+							AVAILABLE CLASSES:
+							submenu-dark = dark sub menu
+						-->
+						<div class="navbar-collapse collapse float-right nav-main-collapse submenu-dark">
+							<nav class="nav-main">
+
+								<!-- 
+									.nav-onepage
+									Required for onepage navigation links
+									
+									Add .external for an external link!
+								-->
+								<ul id="topMain" class="nav nav-pills nav-main nav-onepage">
+									<li class="active"><!-- HOME -->
+										<a id="home-nav" href="index">
+											HOME
+										</a>
+									</li>
+									<li><!-- SERVICES -->
+										<li class="dropdown">
+										<a class="dropdown-toggle" id="services-nav" href="index#services">
+										  SERVICES
+											</a>
+										<ul class="dropdown-menu">
+										  <li><a href="residential">Residential</a></li>
+										  <li><a href="commercial">Commercial</a></li>
+										</ul>
+									</li>
+									</li>
+									<li><!-- PORTFOLIO -->
+										<a id="portfolio-nav" href="index#PORTFOLIO">
+											PORTFOLIO
+										</a>
+									</li>
+									<li><!-- NEWS -->
+										<a id="news-nav" href="index#news">
+											NEWS
+										</a>
+									</li>
+
+									<li><!-- CLIENTS -->
+										<a id="clients-nav" href="index#clients">
+											CLIENTS
+										</a>
+									</li>
+
+									<li><!-- CONTACT -->
+										<a id="contact-nav" href="index#contact">
+											CONTACT
+										</a>
+									</li>
+									<li><!-- USERS login -->
+										<a id="login-nav" href="/admin">
+											SIGN IN
+										</a>
+									</li>
+								</ul>
+
+							</nav>
+						</div>
+
+					</div>
+				</header>
+				<!-- /Top Nav -->
+          <%= form_with(model: intervention, local: true, :method => "post") do |form| %>
+        <h1>Intervention</h1>
+
+        <div id='author_div'>
+          <%= form.hidden_field :author, value: current_user.employee.id %>
+        </div>
+        <div>
+          <%= form.label :Employee%>
+          <%= form.select :employee_id, Employee.all.collect{|p| [p.first_name + ' ' + p.last_name, p.id]}%>
+        </div>
+        <div>
+          <%= form.label :Customer%>
+            <select id="customer_selector" name="intervention[customer_id]">
+                <% @customers.each do |c| %>
+                <option value=<%= c.id %>><%= c.compagny_name%>
+              <% end %>
+            </select>
+        </div>
+        <div id='building_div'>
+          <%= form.label :Bulding%>
+          <%= form.collection_select :building_id, Building.order(:id),:id,:customer_id, {:include_blank => "Select Building"}, :required => true, class:"form-control", :id => "building_selector" %>
+        </div>
+        <div id='battery_div'>
+          <%= form.label :Battery%>
+          <%= form.collection_select :battery_id, Battery.order(:id),:id,:building_id, {:include_blank => "Select Building"}, class:"form-control", :id => "battery_selector" %>
+        </div>
+        <div id='column_div'>
+          <%= form.label :Column%>
+          <%= form.collection_select :column_id, Column.order(:id),:id,:battery_id, {:include_blank => "Select Building"}, class:"form-control", :id => "column_selector" %>
+        </div>
+        <div id='elevator_div'>
+          <%= form.label :Elevator%>
+          <%= form.collection_select :elevator_id, Elevator.order(:id),:id,:column_id, {:include_blank => "Select Building"}, class:"form-control", :id => "elevator_selector" %>
+        </div>
+        <div>
+          <%= form.label :Description%>
+          <%= form.text_field :report, class: 'form-control'%>
+        </div>
+        <div>
+          <%= form.submit%>
+        </div>
       <% end %>
-      </ul>
-    </div>
-  <% end %>
 
-  <div class="field">
-    <%= form.label :author %>
-    <%= form.number_field :author %>
-  </div>
+			<!-- FOOTER -->
+			<footer id="footer">
+				<div class="container">
 
-  <div class="field">
-    <%= form.label :customer_id %>
-    <%= form.number_field :customer_id %>
-  </div>
 
-  <div class="field">
-    <%= form.label :building_id %>
-    <%= form.number_field :building_id %>
-  </div>
+					<div class="row">
 
-  <div class="field">
-    <%= form.label :battery_id %>
-    <%= form.number_field :battery_id %>
-  </div>
+						<!-- col #1 -->
+						<div class="col-md-8">
 
-  <div class="field">
-    <%= form.label :column_id %>
-    <%= form.number_field :column_id %>
-  </div>
+							<h3 class="letter-spacing-1">WHY US?</h3>
 
-  <div class="field">
-    <%= form.label :elevator_id %>
-    <%= form.number_field :elevator_id %>
-  </div>
+							<!-- Small Description -->
+							<p>
+							We have the conviction that we create the most innovative and reliable products on the market. Contact us today for any questions you might have.
 
-  <div class="field">
-    <%= form.label :employee_id %>
-    <%= form.number_field :employee_id %>
-  </div>
+							</p>
+							<h2>(418) 555-1234</h2>
+						</div>
+						<!-- /col #1 -->
 
-  <div class="field">
-    <%= form.label :startdate %>
-    <%= form.datetime_select :startdate %>
-  </div>
+						
+					</div>
 
-  <div class="field">
-    <%= form.label :enddate %>
-    <%= form.text_field :enddate %>
-  </div>
 
-  <div class="field">
-    <%= form.label :result %>
-    <%= form.text_field :result %>
-  </div>
+				</div>
 
-  <div class="field">
-    <%= form.label :report %>
-    <%= form.text_area :report %>
-  </div>
+				<div class="copyright">
+					<div class="container">
+						<ul class="float-right m-0 list-inline mobile-block">
+							<li>Terms &amp; Conditions</li>
+							<li>&bull;</li>
+							<li>Privacy</li>
+						</ul>
+						&copy; All Rights Reserved, Rocket Elevators
+					</div>
+				</div>
 
-  <div class="field">
-    <%= form.label :status %>
-    <%= form.text_field :status %>
-  </div>
+			</footer>
+			<!-- /FOOTER -->
 
-  <div class="actions">
-    <%= form.submit %>
-  </div>
-<% end %>
+		<!-- SCROLL TO TOP -->
+		<a href="#" id="toTop"></a>
+
+
+
+		<!-- JAVASCRIPT FILES -->
+		<script>var plugin_path = 'assets/plugins/';</script>
+		<%= javascript_include_tag 'scriptsquote' %>
+
+		<script>var script_path = 'app/assets/javascript/intervention.js';</script>
+
+    <script>
+
+      //building
+
+      $('#building_div').hide()
+      $('#battery_div').hide()
+      $('#column_div').hide()
+      $('#elevator_div').hide()
+
+      $( document ).ready(function() {
+        console.log( "ready!" );
+        $('#customer_selector').change(function() {
+            customer_data = $('#customer_selector').val()
+            console.log(customer_data)
+            $.get( 'building_fetch/' + customer_data, function( response ) {
+              console.log(response);
+            $('#building_div').show()
+            $('#battery_div').hide()
+            $('#column_div').hide()
+            $('#elevator_div').hide()
+            $('#building_selector').html(`<option value="">Select an option</option>`)
+            $('#battery_selector').html(`<option value="">Select an option</option>`)
+            $('#column_selector').html(`<option value="">Select an option</option>`)
+            $('#elevator_selector').html(`<option value="">Select an option</option>`)
+              for (i = 0; i < response.length; i++) {
+                building = response[i].id
+                $('#building_selector').append(`<option>${building}</option>`)
+                
+              }
+            });
+        });
+
+        $('#building_selector').change(function() {
+            battery_data = $('#building_selector').val()
+            console.log(battery_data)
+            $.get( 'battery_fetch/' + battery_data, function( response ) {
+              console.log(response);
+            $('#building_div').show()
+            $('#battery_div').show()
+            $('#column_div').hide()
+            $('#elevator_div').hide()
+            $('#battery_selector').html(`<option value="">Select an option</option>`)
+            $('#column_selector').html(`<option value="">Select an option</option>`)
+            $('#elevator_selector').html(`<option value="">Select an option</option>`)
+              for (i = 0; i < response.length; i++) {
+                battery = response[i].id
+                console.log(battery)
+                $('#battery_selector').append(`<option>${battery}</option>`)
+              }
+            });
+        });
+
+        $('#battery_selector').change(function() {
+            column_data = $('#battery_selector').val()
+            console.log(column_data)
+            $.get( 'column_fetch/' + column_data, function( response ) {
+              console.log(response);
+            $('#building_div').show()
+            $('#battery_div').show()
+            $('#column_div').show()
+            $('#elevator_div').hide()
+            $('#column_selector').html(`<option value="">Select an option</option>`)
+            $('#elevator_selector').html(`<option value="">Select an option</option>`)
+              for (i = 0; i < response.length; i++) {
+                column = response[i].id
+                console.log(column)
+                $('#column_selector').append(`<option>${column}</option>`)
+              }
+            });
+        });
+
+        $('#column_selector').change(function() {
+            elevator_data = $('#column_selector').val()
+            console.log(elevator_data)
+            $.get( 'column_fetch/' + elevator_data, function( response ) {
+              console.log(response);
+            $('#building_div').show()
+            $('#battery_div').show()
+            $('#column_div').show()
+            $('#elevator_div').show()
+            $('#elevator_selector').html(`<option value="">Select an option</option>`)
+              for (i = 0; i < response.length; i++) {
+                elevator = response[i].id
+                console.log(elevator)
+                $('#elevator_selector').append(`<option>${elevator}</option>`)
+              }
+            });
+        });
+
+      }); 
+    </script>
+
+
+		
+
+	</body>
+</html>

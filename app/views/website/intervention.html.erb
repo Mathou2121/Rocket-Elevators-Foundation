@@ -106,10 +106,43 @@
 				<!-- /Top Nav -->
 
 			</div>
-                <h1>HENLO</h1>
-				<select>
-				<%= for%>
-				</select>
+				<h1>Intervention</h1>
+                <label>Customer</label>
+					<select>
+						<option value="">--- Select ---</option>
+						<% @customers.each do |c| %>
+							<option>test
+						<% end %>
+					</select>
+				<br>
+				<label>Buildings</label>
+					<label>Customer</label>
+						<select id="customer_selector">
+									<% @customers.each do |c| %>
+								<option value=<%= c.id %>><%= c.compagny_name%>
+							<% end %>
+						</select>
+				<br>
+				<br>
+				<label>Batteries</label>
+					<select>
+						<option value="">--- Select ---</option>
+					</select>
+				<br>
+				<label>Columns</label>
+					<select>
+						<option value="">--- Select ---</option>
+					</select>
+				<br>
+				<label>Elevators</label>
+					<select>
+						<option value="">--- Select ---</option>
+					</select>
+				<br>
+				<label>Descrition</label>
+					<input type = 'text' id= 'description' name='description'>
+				<br>
+				<button style= "margin-top: 8px;" class = 'btn btn-danger' type='submit'>Submit</button>
 			<div>
 
             </div>
@@ -163,6 +196,9 @@
 		<!-- JAVASCRIPT FILES -->
 		<script>var plugin_path = 'assets/plugins/';</script>
 		<%= javascript_include_tag 'scriptsquote' %>
+
+		<script>var script_path = 'app/assets/javascript/intervention.js';</script>
+
 
 		
 
