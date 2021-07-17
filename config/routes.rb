@@ -32,5 +32,7 @@ Rails.application.routes.draw do
 
   get '/interventions/elevator_fetch/:column_id', to: 'interventions#elevator_fetch'
 
+  get 'interventions/new', to: 'website#interventions'
+
 end
 

@@ -124,7 +124,7 @@
 
 									<% if user_signed_in? && current_user&.is_employee?(current_user)%>
 									<li><!-- ADMIN -->
-										<a id="interventions-nav" <%= link_to 'INTERVENTIONS', interventions_path %></a>
+										<a id="interventions-nav" <%= link_to 'INTERVENTIONS', interventions_new_path %></a>
 									</li>
 									<% end %>
 
