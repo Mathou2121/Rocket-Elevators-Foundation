@@ -1,9 +1,23 @@
 class InterventionsController < ApplicationController
   before_action :set_intervention, only: %i[ show edit update destroy ]
-
-  # GET /interventions or /interventions.json
+  before_action :has_access
   def index
     @interventions = Intervention.all
+  end
+  
+  def has_access
+    if current_user
+      if current_user.employee || current_user.is_admin
+      else
+        respond_to do |format|
+          format.html { redirect_to root_path, notice: "You do not have access." }
+        end
+      end
+    else
+      respond_to do |format|
+        format.html { redirect_to (root_path + 'users/sign_in'), notice: "Please sign in!" }
+      end
+    end
   end
 
   # GET /interventions/1 or /interventions/1.json
@@ -60,7 +74,7 @@ class InterventionsController < ApplicationController
 
     respond_to do |format|
       if @intervention.save
-        format.html { redirect_to @intervention, notice: "Intervention was successfully created." }
+        format.html { redirect_to rails_admin_path, notice: "Intervention was successfully created." }
         format.json { render :show, status: :created, location: @intervention }
       else
         format.html { render :new, status: :unprocessable_entity }

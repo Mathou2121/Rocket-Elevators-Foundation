@@ -104,11 +104,14 @@
 					</div>
 				</header>
 				<!-- /Top Nav -->
-          <%= form_with(model: intervention, local: true, :method => "post") do |form| %>
+      <%= form_with(model: intervention, local: true, :method => "post") do |form| %>
         <h1>Intervention</h1>
 
         <div id='author_div'>
           <%= form.hidden_field :author, value: current_user.employee.id %>
+        </div>
+        <div id='status_div'>
+          <%= form.hidden_field :status, value: "Pending" %>
         </div>
         <div>
           <%= form.label :Employee%>
@@ -221,8 +224,8 @@
             $('#elevator_div').hide()
             $('#building_selector').html(`<option value="">Select an option</option>`)
             $('#battery_selector').html(`<option value="">Select an option</option>`)
-            $('#column_selector').html(`<option value="">Select an option</option>`)
-            $('#elevator_selector').html(`<option value="">Select an option</option>`)
+            $('#column_selector').html(`<option value="">None</option>`)
+            $('#elevator_selector').html(`<option value="">None</option>`)
               for (i = 0; i < response.length; i++) {
                 building = response[i].id
                 $('#building_selector').append(`<option>${building}</option>`)
@@ -241,8 +244,8 @@
             $('#column_div').hide()
             $('#elevator_div').hide()
             $('#battery_selector').html(`<option value="">Select an option</option>`)
-            $('#column_selector').html(`<option value="">Select an option</option>`)
-            $('#elevator_selector').html(`<option value="">Select an option</option>`)
+            $('#column_selector').html(`<option value="">None</option>`)
+            $('#elevator_selector').html(`<option value="">None</option>`)
               for (i = 0; i < response.length; i++) {
                 battery = response[i].id
                 console.log(battery)
@@ -260,8 +263,8 @@
             $('#battery_div').show()
             $('#column_div').show()
             $('#elevator_div').hide()
-            $('#column_selector').html(`<option value="">Select an option</option>`)
-            $('#elevator_selector').html(`<option value="">Select an option</option>`)
+            $('#column_selector').html(`<option value="">None</option>`)
+            $('#elevator_selector').html(`<option value="">None</option>`)
               for (i = 0; i < response.length; i++) {
                 column = response[i].id
                 console.log(column)
@@ -279,7 +282,7 @@
             $('#battery_div').show()
             $('#column_div').show()
             $('#elevator_div').show()
-            $('#elevator_selector').html(`<option value="">Select an option</option>`)
+            $('#elevator_selector').html(`<option value="">None</option>`)
               for (i = 0; i < response.length; i++) {
                 elevator = response[i].id
                 console.log(elevator)
@@ -289,6 +292,12 @@
         });
 
       }); 
+
+
+
+      if (column_id.value = null) {
+        column_id.value = "none"
+      }
     </script>
 
 
